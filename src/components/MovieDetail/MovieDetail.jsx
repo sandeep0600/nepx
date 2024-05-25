@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import apiConfig from '../../api/apiConfig'; // Adjust import path for apiConfig
-import Button from '../../button/Button'; // Adjust import path for Button component
-import './MovieDetail.scss'; // Import SCSS styles
+import Button from '../button/Button'; // Correct import path for Button component
+import './MovieDetail.scss'; // Import MovieDetail SCSS styles
 
 const MovieDetail = ({ movieId }) => {
     const [movie, setMovie] = useState(null);
