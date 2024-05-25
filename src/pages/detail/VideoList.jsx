@@ -8,12 +8,8 @@ const VideoList = (props) => {
 
     useEffect(() => {
         const getVideos = async () => {
-            try {
-                const res = await tmdbApi.getVideos(category, props.id);
-                setVideos(res.results.slice(0, 5));
-            } catch (error) {
-                console.error('Error fetching videos:', error);
-            }
+            const res = await tmdbApi.getVideos(category, props.id);
+            setVideos(res.results.slice(0, 5));
         };
         getVideos();
     }, [category, props.id]);
@@ -21,28 +17,29 @@ const VideoList = (props) => {
     return (
         <>
             {videos.map((item, i) => (
-                <Video key={i} item={item} />
+                <Video key={i} item={item} category={category} />
             ))}
         </>
     );
 };
 
-const Video = ({ item }) => {
+const Video = (props) => {
+    const { item, category } = props;
     const iframeRef = useRef(null);
 
     useEffect(() => {
-        const setIframeHeight = () => {
-            if (iframeRef.current) {
-                const height = iframeRef.current.offsetWidth * 9 / 16 + 'px';
-                iframeRef.current.setAttribute('height', height);
-            }
-        };
-        setIframeHeight();
-        window.addEventListener('resize', setIframeHeight);
-        return () => {
-            window.removeEventListener('resize', setIframeHeight);
-        };
+        const height = iframeRef.current.offsetWidth * 9 / 16 + 'px';
+        iframeRef.current.setAttribute('height', height);
     }, []);
+
+    const generateEmbedUrl = () => {
+        if (category === 'movie') {
+            return `https://vidsrc.xyz/embed/movie?tmdb=${item.id}`;
+        } else if (category === 'tv') {
+            return `https://vidsrc.xyz/embed/tv?tmdb=${item.id}`;
+        }
+        return '';
+    };
 
     return (
         <div className="video">
@@ -50,7 +47,7 @@ const Video = ({ item }) => {
                 <h2>{item.name}</h2>
             </div>
             <iframe
-                src={`https://vidsrc.net/embed/movie/${item.key}`}
+                src={generateEmbedUrl()}
                 ref={iframeRef}
                 width="100%"
                 title="video"
