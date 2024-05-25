@@ -1,39 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router';
 import tmdbApi from '../../api/tmdbApi';
 
-const VideoList = props => {
-    const { category } = useParams();
+const VideoList = () => {
     const [videos, setVideos] = useState([]);
 
     useEffect(() => {
-        const getVideos = async () => {
+        const fetchData = async () => {
             try {
-                const res = await tmdbApi.getVideos(category, props.id);
-                const parsedData = parseVideoData(res);
-                setVideos(parsedData);
+                // Fetch video details from the provided URL
+                const response = await fetch('https://mov-rho.vercel.app/streams');
+                const data = await response.json();
+                const videoSources = data.sources || [];
+
+                // Get the TMDB ID from tmdbApi
+                const tmdbIds = await tmdbApi.getTMDBIds();
+
+                // Combine the data
+                const combinedVideos = videoSources.map((video, index) => ({
+                    ...video,
+                    tmdbId: tmdbIds[index] || null,
+                }));
+
+                setVideos(combinedVideos);
             } catch (error) {
-                console.error('Error fetching videos:', error);
+                console.error('Error fetching data:', error);
             }
         };
-        getVideos();
-    }, [category, props.id]);
 
-    const parseVideoData = responseData => {
-        // Check if responseData exists and has sources
-        if (responseData && responseData.sources && responseData.sources.length > 0) {
-            // Extract relevant data from sources array
-            return responseData.sources.map(source => {
-                return {
-                    name: source.name,
-                    streamUrl: source.data.stream,
-                    subtitles: source.data.subtitle,
-                };
-            });
-        } else {
-            return [];
-        }
-    };
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -45,7 +40,9 @@ const VideoList = props => {
 };
 
 const Video = ({ video }) => {
-    const { name, streamUrl, subtitles } = video;
+    const { name, data, tmdbId } = video;
+    const streamUrl = data.stream;
+
     const iframeRef = useRef(null);
 
     useEffect(() => {
@@ -66,6 +63,7 @@ const Video = ({ video }) => {
         <div className="video">
             <div className="video__title">
                 <h2>{name}</h2>
+                <p>TMDB ID: {tmdbId}</p>
             </div>
             <iframe
                 src={streamUrl}
@@ -74,9 +72,9 @@ const Video = ({ video }) => {
                 title="video"
             ></iframe>
             {/* Render subtitles if available */}
-            {subtitles && subtitles.length > 0 && (
+            {data.subtitle && data.subtitle.length > 0 && (
                 <ul className="subtitles">
-                    {subtitles.map((subtitle, index) => (
+                    {data.subtitle.map((subtitle, index) => (
                         <li key={index}>
                             <a href={subtitle.file} target="_blank" rel="noreferrer">{subtitle.lang}</a>
                         </li>
@@ -88,3 +86,4 @@ const Video = ({ video }) => {
 };
 
 export default VideoList;
+
