@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import apiConfig from '../../api/apiConfig'; // Adjust the import path here
-import Button from '../Button/Button'; // Import the Button component
-import './MovieDetail.scss'; // Ensure you have corresponding styles
+import apiConfig from '../../api/apiConfig'; // Adjust import path for apiConfig
+import Button from '../../Button/Button'; // Adjust import path for Button component
+import './MovieDetail.scss'; // Import SCSS styles
 
 const MovieDetail = ({ movieId }) => {
     const [movie, setMovie] = useState(null);
@@ -37,7 +37,6 @@ const MovieDetail = ({ movieId }) => {
             <Button className="watch-now-btn" onClick={handleWatchNowClick}>
                 Watch Now
             </Button>
-            {/* You can include other movie details here */}
         </div>
     );
 };
