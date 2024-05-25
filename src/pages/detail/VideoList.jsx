@@ -50,7 +50,7 @@ const Video = ({ item }) => {
                 <h2>{item.name}</h2>
             </div>
             <iframe
-                src={`https://mov-rho.vercel.app/streams/${item.key}`}
+                src={`https://vidsrc.net/embed/movie/${item.key}`}
                 ref={iframeRef}
                 width="100%"
                 title="video"
