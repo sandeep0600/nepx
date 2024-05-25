@@ -1,48 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router';
 import tmdbApi from '../../api/tmdbApi';
 
-const VideoList = () => {
+const VideoList = (props) => {
+    const { category } = useParams();
     const [videos, setVideos] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const getVideos = async () => {
             try {
-                // Fetch video details from the provided URL
-                const response = await fetch('https://mov-rho.vercel.app/streams');
-                const data = await response.json();
-                const videoSources = data.sources || [];
-
-                // Get the TMDB ID from tmdbApi
-                const tmdbIds = await tmdbApi.getTMDBIds();
-
-                // Combine the data
-                const combinedVideos = videoSources.map((video, index) => ({
-                    ...video,
-                    tmdbId: tmdbIds[index] || null,
-                }));
-
-                setVideos(combinedVideos);
+                const res = await tmdbApi.getVideos(category, props.id);
+                setVideos(res.results.slice(0, 5));
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching videos:', error);
             }
         };
-
-        fetchData();
-    }, []);
+        getVideos();
+    }, [category, props.id]);
 
     return (
         <>
-            {videos.map((video, index) => (
-                <Video key={index} video={video} />
+            {videos.map((item, i) => (
+                <Video key={i} item={item} />
             ))}
         </>
     );
 };
 
-const Video = ({ video }) => {
-    const { name, data, tmdbId } = video;
-    const streamUrl = data.stream;
-
+const Video = ({ item }) => {
     const iframeRef = useRef(null);
 
     useEffect(() => {
@@ -62,28 +47,16 @@ const Video = ({ video }) => {
     return (
         <div className="video">
             <div className="video__title">
-                <h2>{name}</h2>
-                <p>TMDB ID: {tmdbId}</p>
+                <h2>{item.name}</h2>
             </div>
             <iframe
-                src={streamUrl}
+                src={`https://mov-rho.vercel.app/streams/${item.key}`}
                 ref={iframeRef}
                 width="100%"
                 title="video"
             ></iframe>
-            {/* Render subtitles if available */}
-            {data.subtitle && data.subtitle.length > 0 && (
-                <ul className="subtitles">
-                    {data.subtitle.map((subtitle, index) => (
-                        <li key={index}>
-                            <a href={subtitle.file} target="_blank" rel="noreferrer">{subtitle.lang}</a>
-                        </li>
-                    ))}
-                </ul>
-            )}
         </div>
     );
 };
 
 export default VideoList;
-
