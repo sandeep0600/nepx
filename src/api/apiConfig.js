@@ -1,5 +1,6 @@
 const apiConfig = {
-    baseUrl: 'https://your-cloudflare-worker-url',
+    baseUrl: 'https://imdb.hriks.com',
+    apiKey: '', // Add your API key if needed
     originalImage: (imgPath) => `https://image.tmdb.org/t/p/original/${imgPath}`,
     w500Image: (imgPath) => `https://image.tmdb.org/t/p/w500/${imgPath}`
 };
