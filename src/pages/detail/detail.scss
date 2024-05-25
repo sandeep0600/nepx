@@ -1,4 +1,4 @@
-@use "../../scss/" as *;
+@use "../../scss/variables" as *;
 
 .banner {
     height: 50vh;
@@ -112,39 +112,5 @@
 
     &__title {
         margin-bottom: 1.5rem;
-    }
-}
-
-// Additional styles for MovieDetail
-.movie-detail {
-    padding: 2rem;
-    background-color: $dark-bg;
-    border-radius: $border-radius;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    p {
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
-    }
-
-    .watch-now-btn {
-        font-size: 1.2rem;
-        padding: 0.5rem 2rem;
-        background-color: $main-color;
-        color: $white;
-        border: none;
-        border-radius: $border-radius;
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-        &:hover {
-            background-color: darken($main-color, 10%);
-        }
     }
 }
