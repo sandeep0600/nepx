@@ -1,7 +1,12 @@
-// Import variables and mixins
-@use "../../scss/variables" as *;
+// Variables (replace placeholders with actual values)
+$body-bg: #ffffff;
+$black: #000000;
+$border-radius: 5px;
+$main-color: #ff0000;
+$white: #ffffff;
+$dark-bg: #333333;
 
-// Define mixins (replace these with actual mixin definitions)
+// Mixin definitions
 @mixin overlay {
     background-color: rgba(0, 0, 0, 0.5);
 }
@@ -54,10 +59,6 @@
     &__poster {
         flex: 1;
 
-        @include mobile {
-            display: none;
-        }
-
         &__img {
             background-position: center;
             background-size: cover;
@@ -70,12 +71,6 @@
     &__info {
         width: 70%;
         padding-left: 2rem;
-        position: relative;
-
-        @include mobile {
-            width: 100%;
-            padding-left: 0;
-        }
 
         & > * {
             margin-bottom: 2rem;
@@ -95,39 +90,9 @@
                 padding: 0.5rem 1.5rem;
                 border: 2px solid $white; // Using a variable
                 border-radius: $border-radius; // Using a variable
-                font-size: 0.8rem;
-                font-weight: 600;
                 background-color: $body-bg; // Using a variable
             }
         }
-    }
-}
-
-// Casts styles
-.casts {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 10px;
-
-    &__item {
-        &__img {
-            padding-top: 160px;
-            background-size: cover;
-            margin-bottom: 0.5rem;
-        }
-
-        &__name {
-            font-size: 0.8rem;
-        }
-    }
-}
-
-// Video styles
-.video {
-    margin-bottom: 3rem;
-
-    &__title {
-        margin-bottom: 1.5rem;
     }
 }
 
