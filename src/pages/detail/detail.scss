@@ -1,5 +1,16 @@
-// Importing variables and mixins
+// Import variables and mixins
 @use "../../scss/variables" as *;
+
+// Define mixins (replace these with actual mixin definitions)
+@mixin overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@mixin flex($justify, $align) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+}
 
 // Banner styles
 .banner {
@@ -16,7 +27,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        @include overlay(); // Placeholder for mixin 'overlay'
+        @include overlay; // Using the overlay mixin
     }
 
     &::after {
@@ -26,13 +37,13 @@
         left: 0;
         width: 100%;
         height: 100px;
-        background-image: linear-gradient(to top, $body-bg, rgba($black, 0)); // Placeholder for variables
+        background-image: linear-gradient(to top, $body-bg, rgba($black, 0)); // Using variables
     }
 }
 
 // Movie content styles
 .movie-content {
-    @include flex(flex-start, flex-start); // Placeholder for mixin 'flex'
+    @include flex(flex-start, flex-start); // Using the flex mixin
     max-width: 1260px;
     margin-left: auto;
     margin-right: auto;
@@ -51,7 +62,7 @@
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-            border-radius: $border-radius; // Placeholder for variable
+            border-radius: $border-radius; // Using a variable
             padding-top: 165%;
         }
     }
@@ -82,11 +93,11 @@
 
             &__item {
                 padding: 0.5rem 1.5rem;
-                border: 2px solid $white; // Placeholder for variable
-                border-radius: $border-radius; // Placeholder for variable
+                border: 2px solid $white; // Using a variable
+                border-radius: $border-radius; // Using a variable
                 font-size: 0.8rem;
                 font-weight: 600;
-                background-color: $body-bg; // Placeholder for variable
+                background-color: $body-bg; // Using a variable
             }
         }
     }
@@ -123,8 +134,8 @@
 // Additional styling for MovieDetail
 .movie-detail {
     padding: 2rem;
-    background-color: $dark-bg; // Placeholder for variable
-    border-radius: $border-radius; // Placeholder for variable
+    background-color: $dark-bg; // Using a variable
+    border-radius: $border-radius; // Using a variable
     margin-bottom: 2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
@@ -142,10 +153,10 @@
     .watch-now-btn {
         font-size: 1.2rem;
         padding: 0.5rem 2rem;
-        background-color: $main-color; // Placeholder for variable
-        color: $white; // Placeholder for variable
+        background-color: $main-color; // Using a variable
+        color: $white; // Using a variable
         border: none;
-        border-radius: $border-radius; // Placeholder for variable
+        border-radius: $border-radius; // Using a variable
         cursor: pointer;
         transition: background-color 0.3s;
 
